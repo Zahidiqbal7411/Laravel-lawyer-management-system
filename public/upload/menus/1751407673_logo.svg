@@ -1,0 +1,89 @@
+<svg viewBox="0 0 2000 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for the icon -->
+    <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient for accent -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Larger tech icon scaled up -->
+  <g transform="translate(80, 80)">
+    <!-- Main hexagonal tech shape - much bigger -->
+    <polygon points="200,25 300,90 300,210 200,275 100,210 100,90" 
+             fill="url(#techGradient)" 
+             stroke="#1E40AF" 
+             stroke-width="12"
+             filter="url(#glow)"/>
+    
+    <!-- Central processor/chip - much bigger -->
+    <rect x="150" y="130" width="100" height="70" rx="15" fill="#FFFFFF" opacity="0.95"/>
+    
+    <!-- Connection ports/pins - much bigger -->
+    <rect x="130" y="110" width="20" height="15" fill="url(#accentGradient)"/>
+    <rect x="250" y="110" width="20" height="15" fill="url(#accentGradient)"/>
+    <rect x="130" y="200" width="20" height="15" fill="url(#accentGradient)"/>
+    <rect x="250" y="200" width="20" height="15" fill="url(#accentGradient)"/>
+    
+    <!-- Locking mechanism indicators - much bigger -->
+    <circle cx="200" cy="60" r="15" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="200" cy="240" r="15" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="130" cy="150" r="15" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="270" cy="150" r="15" fill="#FFFFFF" opacity="0.9"/>
+    
+    <!-- Secure connection lines - much thicker -->
+    <line x1="200" y1="60" x2="200" y2="130" stroke="#10B981" stroke-width="15" opacity="0.8"/>
+    <line x1="200" y1="200" x2="200" y2="240" stroke="#10B981" stroke-width="15" opacity="0.8"/>
+    <line x1="130" y1="150" x2="150" y2="150" stroke="#10B981" stroke-width="15" opacity="0.8"/>
+    <line x1="250" y1="150" x2="270" y2="150" stroke="#10B981" stroke-width="15" opacity="0.8"/>
+    
+    <!-- Lock symbol in center - much bigger -->
+    <path d="M180,155 Q180,140 200,140 Q220,140 220,155 L220,170 L180,170 Z" 
+          fill="none" 
+          stroke="#1E40AF" 
+          stroke-width="10"/>
+    <rect x="175" y="170" width="50" height="30" rx="7" fill="#1E40AF"/>
+  </g>
+  
+  <!-- Company name scaled up -->
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="160" font-weight="bold" fill="#FFFFFF">
+    LULUPULU
+  </text>
+  
+  <!-- IT scaled up with gap -->
+  <text x="1275" y="280" font-family="Arial, sans-serif" font-size="160" font-weight="bold" fill="#FFFFFF">
+    IT
+  </text>
+  
+  <!-- Technology Master tagline - moved up 50px more -->
+  <text x="825" y="340" font-family="Arial, sans-serif" font-size="55" font-weight="500" fill="#FFFFFF" letter-spacing="8px" text-anchor="middle">
+    TECHNOLOGY MASTER
+  </text>
+  
+  <!-- Decorative tech elements - scaled up -->
+  <g opacity="0.3">
+    <rect x="1400" y="125" width="40" height="10" fill="#3B82F6"/>
+    <rect x="1425" y="150" width="30" height="10" fill="#10B981"/>
+    <rect x="1410" y="175" width="50" height="10" fill="#3B82F6"/>
+    <circle cx="1475" cy="150" r="15" fill="none" stroke="#10B981" stroke-width="5"/>
+    <circle cx="1425" cy="200" r="10" fill="#3B82F6"/>
+  </g>
+  
+  <!-- Subtle connecting line -->
+  <line x1="400" y1="300" x2="400" y2="350" stroke="#E5E7EB" stroke-width="3" opacity="0.5"/>
+</svg>
