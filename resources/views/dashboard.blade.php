@@ -100,7 +100,7 @@
 @section('contents')
 <div class="dashboard-container">
 
-  <!-- Example Card 1 -->
+  <a href="{{ route('admin.user') }}" class="text-decoration-none">
   <div class="admin-card">
     <div class="card-header">
       <div class="card-icon">📄</div>
@@ -108,7 +108,7 @@
     </div>
     <div class="card-body">
         
-      <h2 class="card-value">{{$countUsers}}</h2>
+      <h2 class="card-value"></h2>
 
       <p class="card-trend positive">
         <svg width="16" height="16" viewBox="0 0 24 24">
@@ -118,8 +118,10 @@
       </p>
     </div>
   </div>
+  </a>
 
   <!-- Example Card 2 -->
+  <a href="#" class="text-decoration-none">
   <div class="admin-card">
     <div class="card-header">
       <div class="card-icon">🕒</div>
@@ -135,7 +137,7 @@
       </p>
     </div>
   </div>
-
+</a>
   <!-- Example Card 3 -->
   <div class="admin-card">
     <div class="card-header">
@@ -250,57 +252,7 @@
       </p>
     </div>
   </div>
-  <div class="admin-card">
-    <div class="card-header">
-      <div class="card-icon">📄</div>
-      <h4 class="card-title">Documents</h4>
-    </div>
-    <div class="card-body">
-      <h2 class="card-value">150</h2>
-      <p class="card-trend positive">
-        <svg width="16" height="16" viewBox="0 0 24 24">
-          <path d="M5 15l7-7 7 7H5z" />
-        </svg>
-        +5%
-      </p>
-    </div>
-  </div>
 
-  <!-- Example Card 2 -->
-  <div class="admin-card">
-    <div class="card-header">
-      <div class="card-icon">🕒</div>
-      <h4 class="card-title">Hearings</h4>
-    </div>
-    <div class="card-body">
-      <h2 class="card-value">24</h2>
-      <p class="card-trend positive">
-        <svg width="16" height="16" viewBox="0 0 24 24">
-          <path d="M5 15l7-7 7 7H5z" />
-        </svg>
-        +2%
-      </p>
-    </div>
-  </div>
-
-  <!-- Example Card 3 -->
-  <div class="admin-card">
-    <div class="card-header">
-      <div class="card-icon">💰</div>
-      <h4 class="card-title">Invoices</h4>
-    </div>
-    <div class="card-body">
-      <h2 class="card-value">18</h2>
-      <p class="card-trend negative">
-        <svg width="16" height="16" viewBox="0 0 24 24">
-          <path d="M19 9l-7 7-7-7h14z" />
-        </svg>
-        -3%
-      </p>
-    </div>
-  </div>
-
-  <!-- Add more cards as needed -->
 
 </div>
 @endsection
