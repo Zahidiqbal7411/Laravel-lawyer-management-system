@@ -108,7 +108,9 @@
     </div>
     <div class="card-body">
         
-      <h2 class="card-value"></h2>
+          
+        
+      <h2 class="card-value">{{$usersCount}}</h2>
 
       <p class="card-trend positive">
         <svg width="16" height="16" viewBox="0 0 24 24">

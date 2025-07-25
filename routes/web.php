@@ -12,18 +12,22 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard',[UserController::class,'countUser'])->name('dashboard');
+Route::get('/dashboard/countusers',[UserController::class,'countUsers'])->name('countUsers');
+
+
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard',[UserController::class,'create'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
      Route::get('/user', [UserController::class, 'create'])->name('admin.user');
 
-     Route::get('/dashboard', [DashboardController::class, 'create'])->name('admin.dashboard');
+ 
       Route::post('/user/create', [UserController::class, 'store'])->name('admin.store');
        Route::post('/user/index', [UserController::class, 'getData'])->name('admin.index');
-    
+       
 });
 
 require __DIR__.'/auth.php';
+ 

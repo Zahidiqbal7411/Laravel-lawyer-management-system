@@ -180,7 +180,7 @@
         <h2 class="custom-header">LMS</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a ><i class="fas fa-user"></i> Profile</a></li>
         <li><a ><i class="fas fa-cog"></i> Settings</a></li>
 
