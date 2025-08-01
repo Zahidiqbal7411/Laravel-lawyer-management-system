@@ -1,47 +1,191 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ config('app.name') }}
+    </title>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <link href="{{ asset('assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/icons/phosphor/styles.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/shared/all.min.css') }}" rel="stylesheet" type="text/css">
+   <style>
+    /* public/css/custom.css or in your Blade file */
+.custom-navbar-brand {
+    display: block;
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+    margin: 5px auto;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+           /* White text */
+    font-weight: 700;       /* Bold */
+    font-size: 1.2rem;      /* Optional: Adjust size */
+    text-align: center;     /* Optional: Center text */
+    text-transform: uppercase
+}
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+.custom-navbar-brand:hover {
+    transform: scale(1.05);
+}
+.custom-logo{
+   color:white;
+}
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+   </style>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+</head>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+<body>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+    <!-- Main navbar -->
+    <div class="navbar navbar-dark navbar-static py-2">
+        <div class="container-fluid">
+            <div class="navbar-brand custom-navbar-brand">
+                <a href="index.html" class="d-inline-flex align-items-center custom-logo ">
+                    Lawyer Management System
                 </a>
-            @endif
+            </div>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <div class="d-flex justify-content-end align-items-center ms-auto">
+                <ul class="navbar-nav flex-row">
+                    <li class="nav-item">
+                        <a href="#" class="navbar-nav-link navbar-nav-link-icon rounded ms-1">
+                            <div class="d-flex align-items-center mx-md-1">
+                                <i class="ph-lifebuoy"></i>
+                                <span class="d-none d-md-inline-block ms-2">Support</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('register') }}" class="navbar-nav-link navbar-nav-link-icon rounded ms-1">
+                            <div class="d-flex align-items-center mx-md-1">
+                                <i class="ph-user-circle-plus"></i>
+                                <span class="d-none d-md-inline-block ms-2">Register</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="navbar-nav-link navbar-nav-link-icon rounded ms-1">
+                            <div class="d-flex align-items-center mx-md-1">
+                                <i class="ph-user-circle"></i>
+                                <span class="d-none d-md-inline-block ms-2">Login</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+    <!-- /main navbar -->
+
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Inner content -->
+            <div class="content-inner">
+
+                <!-- Content area -->
+                <div class="content d-flex justify-content-center align-items-center">
+
+                    <!-- Login form -->
+                    <form class="login-form" action="{{ route('login') }}" method="POST">
+                        @csrf
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    <div class="d-inline-flex align-items-center justify-content-center mb-4 mt-2">
+                                        <img src="{{ asset('assets/images/logo_icon.svg') }}" class="h-48px"
+                                            alt="">
+                                    </div>
+                                    <h5 class="mb-0">Login to your account</h5>
+                                    <span class="d-block text-muted">Enter your credentials below</span>
+                                </div>
+
+                                <!-- Email Field -->
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <div class="form-control-feedback form-control-feedback-start">
+                                        <input type="text" name="email"
+                                            class="form-control @error('email') is-invalid @enderror"
+                                            value="{{ old('email') }}" placeholder="john@doe.com">
+                                        <div class="form-control-feedback-icon">
+                                            <i class="ph-user-circle text-muted"></i>
+                                        </div>
+                                    </div>
+                                    @error('email')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <!-- Password Field -->
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <div class="form-control-feedback form-control-feedback-start">
+                                        <input type="password" name="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            placeholder="•••••••••••">
+                                        <div class="form-control-feedback-icon">
+                                            <i class="ph-lock text-muted"></i>
+                                        </div>
+                                    </div>
+                                    @error('password')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                                </div>
+
+                                <div class="text-center">
+                                    <a href="login_password_recover.html">Forgot password?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- /login form -->
+
+                </div>
+                <!-- /content area -->
+
+
+                <!-- Footer -->
+
+                <!-- /footer -->
+
+            </div>
+            <!-- /inner content -->
+
+        </div>
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+
+    <!-- Demo config -->
+
+    <!-- /demo config -->
+    <!-- Core JS files -->
+    <script src="{{ asset('assets/demo/demo_configurator.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+</body>
+
+</html>

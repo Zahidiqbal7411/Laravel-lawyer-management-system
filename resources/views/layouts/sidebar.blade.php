@@ -1,198 +1,112 @@
-{{-- <style>
-    .sidebar {
-        width: 250px;
-        background: #1e1e2f;
-        color: #fff;
-        height: 100vh;
-        position: fixed;
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
-    }
+<div class="sidebar sidebar-dark sidebar-main sidebar-expand-lg">
 
-    .sidebar-header {
-        padding: 20px;
-        background: #161625;
-        text-align: center;
-        font-size: 1.5em;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
+    <!-- Sidebar content -->
+    <div class="sidebar-content">
 
-    .sidebar-menu {
-        list-style: none;
-        padding: 20px 0;
-        margin: 0;
-    }
+        <!-- Sidebar header -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-body d-flex justify-content-center">
+                <h5 class="sidebar-resize-hide flex-grow-1 my-auto">Navigation</h5>
 
-    .sidebar-menu li {
-        padding: 12px 20px;
-    }
+                <div>
+                    <button type="button"
+                        class="btn btn-flat-white btn-icon btn-sm rounded-pill border-transparent sidebar-control sidebar-main-resize d-none d-lg-inline-flex">
+                        <i class="ph-arrows-left-right"></i>
+                    </button>
 
-    .sidebar-menu a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #ddd;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-    }
+                    <button type="button"
+                        class="btn btn-flat-white btn-icon btn-sm rounded-pill border-transparent sidebar-mobile-main-toggle d-lg-none">
+                        <i class="ph-x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /sidebar header -->
 
-    .sidebar-menu a:hover {
-        background: #2e2e4d;
-        color: #fff;
-        border-left: 4px solid #00adb5;
-        padding-left: 16px;
-    }
 
-    .custom-header {
-        margin-top: 50px;
-    }
-</style> --}}
+        <!-- Main navigation -->
+        <div class="sidebar-section">
+            <ul class="nav nav-sidebar" data-nav-type="accordion">
+
+                <!-- Main -->
+                <li class="nav-item-header pt-0">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Main</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+                <!-- Dashboard for Admin -->
+
+
+                @role('Admin|SUPER_ADMIN')
+                    @can('view admin dashboard')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link" id="sidebar-dashboard-link">
+                                <i class="ph-house"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                    @endcan
 
 
 
+                   
 
 
 
-{{-- <div class="sidebar">
-    <div class="sidebar-header">
-        <h2 class="custom-header">LMS</h2>
+                 
+
+
+                    {{-- Roles & Permissions dropdown (keep) --}}
+                    {{-- @canany(['manage roles', 'manage permissions', 'assign roles', 'assign permissions'])
+                        <li class="nav-item nav-item-submenu" id="sidebar-roles-permissions">
+                            <a href="javascript:void(0);" class="nav-link" id="sidebar-roles-link">
+                                <i class="ph-layout"></i>
+                                <span>Roles Permissions</span>
+                            </a>
+                            <ul class="nav-group-sub collapse" id="sidebar-roles-submenu">
+                                @can('manage roles')
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.roles.index') }}" class="nav-link"
+                                            id="sidebar-roles-item">Roles</a>
+                                    </li>
+                                @endcan
+                                @can('manage permissions')
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.permissions.index') }}" class="nav-link"
+                                            id="sidebar-permissions-item">Permissions</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany --}}
+
+
+                @endrole
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </ul>
+        </div>
+        <!-- /main navigation -->
+
     </div>
-    <ul class="sidebar-menu">
-        <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
-        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+    <!-- /sidebar content -->
 
-
-        <li>
-            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                @csrf
-                <button type="submit"
-                    style="background: none; border: none; padding: 0; margin: 0; color: inherit; cursor: pointer;">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
-        </li>
-
-
-        
-
-    </ul>
-</div> --}}
-<style>
-.sidebar {
-  width: 250px;
-  background: #1e1e2f;
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  overflow-y: auto;
-}
-
-.sidebar-header {
-  padding: 20px;
-  background: #161625;
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-menu li {
-  padding: 12px 20px;
-}
-
-.sidebar-menu a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #ddd;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.sidebar-menu a:hover {
-  background: #2e2e4d;
-  color: #fff;
-  border-left: 4px solid #00adb5;
-  padding-left: 16px;
-}
-
-/* Logout button style to match links */
-.sidebar-menu form button {
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-  font-size: 1rem;
-  padding: 12px 20px;
-  text-align: left;
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
-
-.sidebar-menu form button:hover {
-  background: #2e2e4d;
-  color: #fff;
-  border-left: 4px solid #00adb5;
-  padding-left: 16px;
-}
-
-/* Optional responsive tweaks */
-@media (max-width: 768px) {
-  .sidebar {
-    position: absolute;
-    width: 200px;
-    height: 100%;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-  }
-
-  .sidebar.active {
-    transform: translateX(0);
-  }
-
-  main {
-    margin-left: 0 !important;
-  }
-}
-</style>
-<div class="sidebar">
-    <div class="sidebar-header">
-        <h2 class="custom-header">LMS</h2>
-    </div>
-    <ul class="sidebar-menu">
-        <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a ><i class="fas fa-user"></i> Profile</a></li>
-        <li><a ><i class="fas fa-cog"></i> Settings</a></li>
-
-        <li>
-            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                @csrf
-                <button type="submit"
-                    style=" font-size: 1rem; margin-left:10px; background: none; border: none;padding: 0;margin: 0;font: inherit;color: inherit;cursor: pointer;display: flex; align-items: center;
-                ">
-                    <i class="fas fa-sign-out-alt" style="margin-right: 25px;"></i> Logout
-                </button>
-            </form>
-        </li>
-    </ul>
 </div>
+
+

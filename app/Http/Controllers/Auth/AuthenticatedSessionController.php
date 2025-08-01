@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
+
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -22,14 +27,48 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+
+     public function store(Request $request)
     {
-        $request->authenticate();
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
 
-        $request->session()->regenerate();
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+            $credentials = $request->only('email', 'password');
+
+            if (!Auth::attempt($credentials)) {
+                return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
+            }
+
+            $request->session()->regenerate();
+            $user = Auth::user();
+
+            if ($user->hasRole('client') || $user->hasRole('client')) {
+                return redirect()->intended(route(getPrefix() .'dashboard'));
+            }
+
+            // if ($user->hasRole('Developer')) {
+            //     return redirect()->intended(route('developer.dashboard'));
+            // }
+
+            // if ($user->hasRole('User')) {
+            //     return redirect()->intended(route('user.dashboard'));
+            // }
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        }
     }
+
+
+
 
     /**
      * Destroy an authenticated session.
@@ -42,6 +81,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
+    }
+
+    public function getAssignedDevelopers(Project $project)
+    {
+        $assignedDeveloperIds = $project->users->pluck('id');
+        return response()->json(['assignedDeveloperIds' => $assignedDeveloperIds]);
     }
 }

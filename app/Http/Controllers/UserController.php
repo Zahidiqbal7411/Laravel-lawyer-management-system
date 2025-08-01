@@ -2,134 +2,106 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use App\Models\User;
-
+use App\Models\Project;
+use App\Models\Activity;
+use App\Services\ActivityService;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function create()
     {
-         $roles=Role::all();
-         
-        return view('admin.user.index',compact('roles'));
+        $roles = \Spatie\Permission\Models\Role::all();
+        return view('auth.login', compact('roles'));
     }
 
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'name'     => 'required|string|max:255',
-    //         'email'    => 'required|email|unique:users,email',
-    //         'password' => 'required|min:6',
-    //         'status'  => 'required',
-    //         'role'  => 'required',
-    //         'photo' => 'required',
-    //         'notes' => 'required',
-    //         'phone' => 'required'
-    //     ]);
-       
-    //     $user = new User();
-    //     $user->name     = $request->name;
-    //     $user->email    = $request->email;
-    //     $user->password = Hash::make($request->password);
-        
-    //      $user->status = $request->status;
-    //      $user->photo = $request-> photo;
+    public function index()
+    {
+        $users = \App\Models\User::all();
+        return view('user.list', compact('users'));
+    }
 
+    public function store(Request $request)
+    {
+        dd('User registration logic here'); // Placeholder for user registration logic
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => ['required', 'confirmed'],
+            'role' => 'required|exists:roles,name',
+        ]);
 
-    //     $user->save();
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => \Hash::make($request->password),
+            ]);
 
-    //     return response()->json([
-    //         'status'  => true,
-    //         'message' => 'User created successfully'
-    //     ]);
-    // }
+            $user->assignRole($request->role);
 
+            // \Auth::login($user); // Remove auto-login for admin-created users
 
-
-public function store(Request $request)
-{
-  
-    $request->validate([
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|unique:users,email',
-        'password' => 'required|min:6',
-        'status'   => 'nullable|in:0,1,2',
-        'role'     => 'nullable|exists:roles,name',
-        'photo'    => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'notes'    => 'nullable|string',
-        'phone'    => 'nullable|string|max:20',
-        'dob'      => 'nullable|date',
-        'gender'   => 'nullable|in:male,female,other',
-        'address'  => 'nullable|string|max:255',
-    ]);
-
-    $user = new User();
-    $user->name     = $request->name;
-    $user->email    = $request->email;
-    $user->password = Hash::make($request->password);
-    $user->status   = $request->status;
-    $user->phone    = $request->phone;
-    $user->notes    = $request->notes;
-    $user->dob      = $request->dob;
-    $user->gender   = $request->gender;
-    $user->address  = $request->address;
-    $user->role = $request->role;
-   
-
-    // Handle photo upload using move()
-    if ($request->hasFile('photo')) {
-        $image      = $request->file('photo');
-        $imageName  = time() . '_' . $image->getClientOriginalName();
-        $destinationPath = public_path('uploads/users');
-
-        // Create directory if it doesn't exist
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
+            return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+        } catch (\Throwable $e) {
+            \Log::error('User registration failed: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors([
+                'registration_error' => 'Something went wrong during registration. Please try again later.',
+            ]);
         }
-
-        $image->move($destinationPath, $imageName);
-
-        // Save the relative path to DBs
-        $user->photo = 'uploads/users/' . $imageName;
     }
 
-    $user->save();
-
-    // Assign role using Spatie
-    $user->assignRole($request->role);
-
-    return response()->json([
-        'status'  => true,
-        'message' => 'User created successfully'
-    ]);
-}
-
-
-
-    public function getData(Request $request)
-{
-    if ($request->ajax()) {
-        $users = User::select(['id', 'name', 'email', 'created_at']);
-       
-        return DataTables::of($users)->make(true);
+    public function show($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        return view('user.show', compact('user'));
     }
 
-    // Optional fallback for non-AJAX request
-    return response()->json(['message' => 'Invalid request'], 400);
+    public function edit($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        $roles = \Spatie\Permission\Models\Role::all();
+        return view('user.edit', compact('user', 'roles'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'role' => 'required|exists:roles,name',
+        ]);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->filled('password')) {
+            $user->password = \Hash::make($request->password);
+        }
+        $user->save();
+        // Sync role
+        $user->syncRoles([$request->role]);
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function dashboard()
+    {
+        $user = \Auth::user();
+        $projects = Project::where('created_by', $user->id)
+                          ->orWhere('client_id', $user->id)
+                          ->orderBy('created_at', 'desc')
+                          ->get();
+
+        $activities = ActivityService::getUserActivities($user->id, 10);
+
+        return view('admin.user.dashboard', compact('projects', 'activities'));
+    }
 }
-
-
- public function countUsers()
-{
-    $users = User::all();
-    $usersCount = $users->count();
-    return view('dashboard', compact('usersCount'));
-}
-
-
-}
-
