@@ -16,7 +16,8 @@ return new class extends Migration {
 
             $table->tinyInteger('status')->default(1); // 0 = inactive, 1 = active, 2 = suspended
             $table->enum('role' ,['admin', 'lawyer' , 'client'])->nullable(); // You may keep this for legacy/backup, but Spatie handles roles separately
-            $table->string('photo')->nullable();
+            $table->longText('profile_image')->nullable();
+    $table->longText('cover_image')->nullable();
             $table->text('notes')->nullable();
             $table->string('phone')->nullable();
             $table->date('dob')->nullable();
