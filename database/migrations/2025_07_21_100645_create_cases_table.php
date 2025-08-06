@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('lawyer_id')->constrained('users')->onDelete('cascade');
             $table->string('court_name');
             $table->date('filing_date');
+              $table->text('attachment_paths')->nullable();
             $table->date('resolution_date')->nullable();
             $table->timestamps();
         });

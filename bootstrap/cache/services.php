@@ -34,7 +34,8 @@
     30 => 'Spatie\\Backup\\BackupServiceProvider',
     31 => 'Spatie\\Permission\\PermissionServiceProvider',
     32 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-    33 => 'App\\Providers\\AppServiceProvider',
+    33 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    34 => 'App\\Providers\\AppServiceProvider',
   ),
   'eager' => 
   array (
@@ -55,7 +56,8 @@
     14 => 'Spatie\\Backup\\BackupServiceProvider',
     15 => 'Spatie\\Permission\\PermissionServiceProvider',
     16 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-    17 => 'App\\Providers\\AppServiceProvider',
+    17 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    18 => 'App\\Providers\\AppServiceProvider',
   ),
   'deferred' => 
   array (

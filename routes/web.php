@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\JobPostingController;
 use App\Http\Controllers\Admin\CareerNewsController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\ClientDetailController;
+use App\Http\Controllers\ViewCasesController;
 
 // NOTE: Removed line causing error
 // use App\Http\Controllers\Developer\DeveloperController;
@@ -71,6 +72,8 @@ Route::middleware('auth')->group(function () {
       Route::resource('client-details', ClientDetailController::class);
        Route::post('/profile/update', [ClientDetailController::class, 'update'])->name('profile.update');
     Route::post('/profile/photo/upload', [ClientDetailController::class, 'uploadPhoto'])->name('image.store');
+     Route::post('/profile/photo/upload', [ClientDetailController::class, 'uploadPhoto'])->name('image.store');
+     Route::resource('cases',ViewCasesController::class);
     });
     Route::middleware(['role:lawyer'])->prefix('lawyer')->name('lawyer.')->group(function () {
         // Add user-specific routes here
